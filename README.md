@@ -10,7 +10,7 @@
 # What To Install Before Running
   - ~$ pip install Flask
   
-# HOW To Run With HTTPIE
+# How To Run With HTTPIE
   - ~$ Flask init
   - ~$ Flak run
   - ~$ http "method(GET, POST, PUT etc.)" "url/db_table_name" "attribute=attribute_name" (Make sure to run on seperate terminal)
