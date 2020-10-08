@@ -1,7 +1,6 @@
 import flask
 from flask import request, jsonify, g
 import sqlite3
-from werkzeug.security import generate_password_hash,check_password_hash
 from datetime import datetime
 
 app = flask.Flask(__name__)
@@ -55,74 +54,21 @@ def users_all():
     all_users = query_db('SELECT * FROM users;')
     return jsonify(all_users)
 
-@app.route('/users', methods=['POST'])
-def createUser():
-    query_params = request.get_json()
-    username = query_params['username']
-    password = query_params['password']
-    password = generate_password_hash(password)
-    email = query_params['email']
-    db = get_db()
-    
-    query_db('INSERT INTO users(username,password,email) VALUES (?,?,?);',(username,password,email))
-    db.commit()
-    return "created",201
-    
-   
-
-@app.route('/users/<username>', methods=['PUT'])
-def addFollower(username):
-    query_params = request.get_json()
-    original = query_params['username']
-    db = get_db()
-    
-    query_db('INSERT INTO followerlist(username,follower) VALUES (?,?);',(original,username))
-    db.commit()
-    return "Follower added"
-
-@app.route('/users/<username>', methods=['DELETE'])
-def removeFollower(username):
-    query_params = request.get_json()
-    original = query_params['username']
-    db = get_db()
-    
-    query_db('DELETE FROM followerlist WHERE username = ? AND follower = ?',(original,username))
-    db.commit()
-    return "Follower deleted"
-
-@app.route('/users/<username>/<password>', methods=['GET'])
-def authenticateUser(username,password):
-    auth = query_db('SELECT * FROM users WHERE username = ?;',(username,))
-    stored = auth[0]['password']
-    result = check_password_hash(stored,password)
-    if result == True:
-        return "Authorized"
-        
-    else:
-        message = {'message': "Authenticate."}
-        resp = jsonify(message)
-
-        resp.status_code = 401
-        return resp
-
-@app.route('/posts',methods=['POST'])
-def postTweet():
-    query_params = request.get_json()
-    text = query_params['text']
-    now = datetime.now()
-    timestamp = now.strftime('%Y-%m-%d %H:%M:%S')
-    author = query_params['username']
-
-    db = get_db()
-    
-    query_db('INSERT INTO posts(text,timestamp,author) VALUES (?,?,?);',(text,timestamp,author))
-    db.commit()
-    return "created",201
     
 @app.route('/timeline',methods=['GET'])
 def getPublicTimeline():
-    all_tweets = query_db('SELECT * FROM posts ORDER BY timestamp DESC LIMIT 25;')
+    all_tweets = query_db('SELECT text, author, timestamp FROM posts ORDER BY timestamp DESC LIMIT 25;')
     return jsonify(all_tweets)
+
+@app.route('/timeline/<username>', methods = ['GET'])
+def getUserTimeline(username):
+    user_tweets = query_db('SELECT text, author, timestamp FROM posts WHERE author = ? ORDER BY timestamp DESC LIMIT 25;', (username,))
+    return jsonify(user_tweets)
+
+@app.route('/homeTimeline/<username>', methods = ['GET'])
+def getHomeTimeline(username):
+    home_tweets = query_db('SELECT text, author, timestamp FROM posts WHERE author IN (SELECT follower FROM followerlist WHERE username = ?) ORDER BY timestamp DESC LIMIT 25;', (username,))
+    return jsonify(home_tweets)
 
 @app.errorhandler(404)
 def page_not_found(e):
