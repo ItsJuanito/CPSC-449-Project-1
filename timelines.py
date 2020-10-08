@@ -54,6 +54,20 @@ def users_all():
     all_users = query_db('SELECT * FROM users;')
     return jsonify(all_users)
 
+
+@app.route('/posts',methods=['POST'])
+def postTweet():
+    query_params = request.get_json()
+    text = query_params['text']
+    now = datetime.now()
+    timestamp = now.strftime('%Y-%m-%d %H:%M:%S')
+    author = query_params['username']
+
+    db = get_db()
+    
+    query_db('INSERT INTO posts(text,timestamp,author) VALUES (?,?,?);',(text,timestamp,author))
+    db.commit()
+    return "created",201
     
 @app.route('/timeline',methods=['GET'])
 def getPublicTimeline():
