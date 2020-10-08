@@ -11,7 +11,7 @@
   - ~$ Flask init
   - ~$ Flak run
   - ~$ http "method(GET, POST, PUT etc.)" "url/db_table_name" "attribute=attribute_name" (Make sure to run on seperate terminal)
-  - Example:
+  -  Example:
   - ~$ http GET 127.0.0.1/users user=jack password=hello_world email=jack@gmail.com
   
 # How To Run With Foreman
