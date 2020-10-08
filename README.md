@@ -7,6 +7,9 @@
   - PROCFILE: Holds functionality to run the program with "foreman".
   - api.cfg: Contains the database name.
   
+# What To Install Before Running
+  - ~$ pip install Flask
+  
 # HOW To Run With HTTPIE
   - ~$ Flask init
   - ~$ Flak run
