@@ -4,7 +4,7 @@
   - users.py: Contains main functionality for creating users and authenticating users as well.
   - timelines.py: This file includes functionality for posting tweets and getting different timelines of tweets.
   - schema.sql: Includes the tables and input data used for testing the program.
-  - Procfile: Holds functionality to run the program with "foreman".
+  - Procfile: Holds comands to run the program with "foreman".
   - api.cfg: Contains the database name.
   
 # What To Install Before Running
