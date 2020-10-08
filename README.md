@@ -7,7 +7,7 @@
   - PROCFILE: Holds functionality to run the program with "foreman".
   - api.cfg: Contains the database name.
   
-# HOW TO RUN With HTTPIE
+# HOW To Run With HTTPIE
   - ~$ Flask init
   - ~$ Flak run
   - ~$ http "method(GET, POST, PUT etc.)" "url/db_table_name" "attribute=attribute_name" (Make sure to run on seperate terminal)
