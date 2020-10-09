@@ -4,18 +4,20 @@
   - users.py: Contains main functionality for creating users and authenticating users as well.
   - timelines.py: This file includes functionality for posting tweets and getting different timelines of tweets.
   - schema.sql: Includes the tables and input data used for testing the program.
-  - Procfile: Holds comands to run the program with "foreman".
-  - api.cfg: Contains the database name.
+  - Procfile: Holds commands to run the program with "foreman".
+  - .env: defines the flask app and enviroment (Note: foreman would exit if flask init was included in procfile)
   
 # What To Install Before Running
-  - ~$ pip install Flask
+  - Python3
+  - Flask
+  - HTTPIE
+  - Foreman
   
-# How To Run With HTTPIE
-  - ~$ Flask init
-  - ~$ Flak run
+# How To test With HTTPIE
   - ~$ http "method(GET, POST, PUT, etc.)" "url+port/db_table_name" "attribute_name=input" (Make sure to run on seperate terminal)
   -  Example:
   - ~$ http POST 127.0.0.1:5000/users username=jack password=hello_world email=jack@gmail.com
   
-# How To Run With Foreman
+# How To Run 
+  - ~$ flask init
   - ~$ foreman start
